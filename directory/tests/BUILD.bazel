@@ -1,0 +1,30 @@
+load("@rules_testing//lib:analysis_test.bzl", "analysis_test")
+load(
+    ":directory_test.bzl",
+    "directory_test",
+    "outside_testdata_test",
+)
+
+analysis_test(
+    name = "directory_test",
+    impl = directory_test,
+    targets = {
+        "root": "//directory/tests/testdata:root",
+        "f1": "//directory/tests/testdata:f1_filegroup",
+        "f2": "//directory/tests/testdata:f2_filegroup",
+        "f3": "//directory/tests/testdata:f3",
+    },
+)
+
+filegroup(
+    name = "outside_testdata",
+    srcs = ["BUILD.bazel"],
+    visibility = ["//directory/tests/testdata:__pkg__"],
+)
+
+analysis_test(
+    name = "outside_testdata_test",
+    expect_failure = True,
+    impl = outside_testdata_test,
+    target = "//directory/tests/testdata:outside_testdata",
+)
