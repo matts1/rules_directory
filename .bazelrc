@@ -6,6 +6,9 @@
 common --enable_bzlmod
 common --check_direct_dependencies=error
 
+# Required by rules_directory.
+common --incompatible_struct_has_no_methods
+
 # Load any settings specific to the current user.
 # .bazelrc.user should appear in .gitignore so that settings are not shared with team members
 # This needs to be last statement in this
