@@ -17,3 +17,19 @@ bzl_library(
     srcs = ["providers.bzl"],
     visibility = ["//visibility:public"],
 )
+
+bzl_library(
+    name = "subdirectory",
+    srcs = ["subdirectory.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":providers.bzl",
+        ":utils",
+    ],
+)
+
+bzl_library(
+    name = "utils",
+    srcs = ["utils.bzl"],
+    visibility = ["//visibility:public"],
+)
