@@ -1,10 +1,19 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 
-# For stardoc to reference the files
-exports_files(["defs.bzl"])
+licenses(["notice"])
+
+# For stardoc to reference the files.
+exports_files(glob(["*.bzl"]))
 
 bzl_library(
-    name = "defs",
-    srcs = ["defs.bzl"],
+    name = "directory",
+    srcs = ["directory.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [":providers.bzl"],
+)
+
+bzl_library(
+    name = "providers",
+    srcs = ["providers.bzl"],
     visibility = ["//visibility:public"],
 )
