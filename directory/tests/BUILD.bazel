@@ -4,6 +4,13 @@ load(
     "directory_test",
     "outside_testdata_test",
 )
+load(
+    ":subdirectory_test.bzl",
+    "nonexistent_subdirectory_test",
+    "subdirectory_as_file_test",
+    "subdirectory_of_file_test",
+    "subdirectory_test",
+)
 
 analysis_test(
     name = "directory_test",
@@ -27,4 +34,36 @@ analysis_test(
     expect_failure = True,
     impl = outside_testdata_test,
     target = "//directory/tests/testdata:outside_testdata",
+)
+
+analysis_test(
+    name = "subdirectory_test",
+    impl = subdirectory_test,
+    targets = {
+        "root": "//directory/tests/testdata:root",
+        "dir": "//directory/tests/testdata:dir",
+        "subdir": "//directory/tests/testdata:subdir",
+        "f2": "//directory/tests/testdata:f2_filegroup",
+    },
+)
+
+analysis_test(
+    name = "nonexistent_subdirectory_test",
+    expect_failure = True,
+    impl = nonexistent_subdirectory_test,
+    target = "//directory/tests/testdata:nonexistent_subdirectory",
+)
+
+analysis_test(
+    name = "subdirectory_as_file_test",
+    expect_failure = True,
+    impl = subdirectory_as_file_test,
+    target = "//directory/tests/testdata:subdirectory_as_file",
+)
+
+analysis_test(
+    name = "subdirectory_of_file_test",
+    expect_failure = True,
+    impl = subdirectory_of_file_test,
+    target = "//directory/tests/testdata:subdirectory_of_file",
 )

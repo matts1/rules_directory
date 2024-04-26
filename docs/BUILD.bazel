@@ -12,4 +12,14 @@ stardoc_with_diff_test(
     bzl_library_target = "//directory:providers",
 )
 
+stardoc_with_diff_test(
+    name = "subdirectory",
+    bzl_library_target = "//directory:subdirectory",
+)
+
+stardoc_with_diff_test(
+    name = "utils",
+    bzl_library_target = "//directory:utils",
+)
+
 update_docs(name = "update")
