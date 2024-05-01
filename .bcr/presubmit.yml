@@ -1,5 +1,7 @@
 bcr_test_module:
-  module_path: "e2e/smoke"
+  # Normally, you would use an e2e test, but since we're not doing anything
+  # fancy, and our e2e tests are cheap
+  module_path: ""
   matrix:
     platform: ["debian10", "macos", "ubuntu2004", "windows"]
     bazel: ["7.x", "6.x"]
