@@ -1,8 +1,8 @@
-"Bazel dependencies"
+"matts1/rules_directory"
 
 module(
     name = "rules_directory",
-    version = "0.0.0",
+    version = "0.0.1",
     compatibility_level = 0,
 )
 
