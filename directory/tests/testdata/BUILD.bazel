@@ -15,7 +15,7 @@ directory(
     name = "root",
     srcs = glob(
         ["**"],
-        exclude = ["BUILD"],
+        exclude = ["BUILD.bazel"],
     ) + [":f3"],
 )
 
@@ -24,7 +24,7 @@ util.helper_target(
     name = "outside_testdata",
     srcs = glob(
         ["**"],
-        exclude = ["BUILD"],
+        exclude = ["BUILD.bazel"],
     ) + ["//directory/tests:outside_testdata"],
 )
 
