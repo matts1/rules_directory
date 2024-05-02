@@ -1,6 +1,12 @@
 {
   "homepage": "https://github.com/matts1/rules_directory",
-  "maintainers": [],
+  "maintainers": [
+    {
+      "name": "Matt Stark",
+      "email": "mattstark75@gmail.com",
+      "github": "matts1"
+    }
+  ],
   "repository": ["github:matts1/rules_directory"],
   "versions": [],
   "yanked_versions": {}
