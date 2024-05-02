@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 6,
-  "moduleFileHash": "fc68a189845ca974fb1b3c2feabbc0e23945f05896b0d6d61f07335cacc3d0ae",
+  "moduleFileHash": "e29a01887a6951079d83b594c65f598ab63b2280cac6edb67f933a4dffc399d6",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -18,22 +18,53 @@
   "moduleDepGraph": {
     "<root>": {
       "name": "rules_directory",
-      "version": "0.1.0",
+      "version": "0.0.0",
       "key": "<root>",
       "repoName": "rules_directory",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [],
       "extensionUsages": [],
       "deps": {
+        "rules_testing": "rules_testing@0.6.0",
         "bazel_skylib": "bazel_skylib@1.5.0",
         "platforms": "platforms@0.0.7",
         "bazel_gazelle": "gazelle@0.35.0",
         "bazel_skylib_gazelle_plugin": "bazel_skylib_gazelle_plugin@1.4.1",
         "aspect_bazel_lib": "aspect_bazel_lib@1.32.1",
         "buildifier_prebuilt": "buildifier_prebuilt@6.1.2",
-        "rules_testing": "rules_testing@0.6.0",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
+      }
+    },
+    "rules_testing@0.6.0": {
+      "name": "rules_testing",
+      "version": "0.6.0",
+      "key": "rules_testing@0.6.0",
+      "repoName": "rules_testing",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [],
+      "extensionUsages": [],
+      "deps": {
+        "platforms": "platforms@0.0.7",
+        "bazel_skylib": "bazel_skylib@1.5.0",
+        "rules_license": "rules_license@0.0.7",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      },
+      "repoSpec": {
+        "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+        "ruleClassName": "http_archive",
+        "attributes": {
+          "urls": [
+            "https://github.com/bazelbuild/rules_testing/releases/download/v0.6.0/rules_testing-v0.6.0.tar.gz"
+          ],
+          "integrity": "sha256-AsYldGMYdqTjsCoYIMtRFnu5zc3qI4Gy+p2bixHEB8Q=",
+          "strip_prefix": "rules_testing-0.6.0",
+          "remote_patches": {
+            "https://bcr.bazel.build/modules/rules_testing/0.6.0/patches/module_dot_bazel_version.patch": "sha256-zHdszG0CcODGvv3mz84d9MlwLrZEOr1r+dpVDpsvs8U="
+          },
+          "remote_patch_strip": 1
+        }
       }
     },
     "bazel_skylib@1.5.0": {
@@ -385,37 +416,6 @@
             "https://bcr.bazel.build/modules/buildifier_prebuilt/6.1.2/patches/module_dot_bazel_version.patch": "sha256-U79F1nzwKoLhPknGAjb0A/xNnnB62K5Hj71pgXYfNO0="
           },
           "remote_patch_strip": 0
-        }
-      }
-    },
-    "rules_testing@0.6.0": {
-      "name": "rules_testing",
-      "version": "0.6.0",
-      "key": "rules_testing@0.6.0",
-      "repoName": "rules_testing",
-      "executionPlatformsToRegister": [],
-      "toolchainsToRegister": [],
-      "extensionUsages": [],
-      "deps": {
-        "platforms": "platforms@0.0.7",
-        "bazel_skylib": "bazel_skylib@1.5.0",
-        "rules_license": "rules_license@0.0.7",
-        "bazel_tools": "bazel_tools@_",
-        "local_config_platform": "local_config_platform@_"
-      },
-      "repoSpec": {
-        "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-        "ruleClassName": "http_archive",
-        "attributes": {
-          "urls": [
-            "https://github.com/bazelbuild/rules_testing/releases/download/v0.6.0/rules_testing-v0.6.0.tar.gz"
-          ],
-          "integrity": "sha256-AsYldGMYdqTjsCoYIMtRFnu5zc3qI4Gy+p2bixHEB8Q=",
-          "strip_prefix": "rules_testing-0.6.0",
-          "remote_patches": {
-            "https://bcr.bazel.build/modules/rules_testing/0.6.0/patches/module_dot_bazel_version.patch": "sha256-zHdszG0CcODGvv3mz84d9MlwLrZEOr1r+dpVDpsvs8U="
-          },
-          "remote_patch_strip": 1
         }
       }
     },
