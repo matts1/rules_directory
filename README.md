@@ -2,4 +2,4 @@
 
 ## Installation
 
-Add `bazel_deps(name = "rules_directory", version = "0.1.0")` to your `MODULE.bazel`.
+Add `bazel_deps(name = "rules_directory", version = "<version>")` to your `MODULE.bazel`.

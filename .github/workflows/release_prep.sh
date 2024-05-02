@@ -21,5 +21,3 @@ cat << EOF
 bazel_dep(name = "rules_directory", version = "${TAG:1}")
 \`\`\`
 EOF
-
-echo "\`\`\`"
