@@ -2,6 +2,53 @@
 
 Skylib module containing utility functions related to directories.
 
+<a id="directory_glob"></a>
+
+## directory_glob
+
+<pre>
+directory_glob(<a href="#directory_glob-directory">directory</a>, <a href="#directory_glob-include">include</a>, <a href="#directory_glob-allow_empty">allow_empty</a>)
+</pre>
+
+native.glob, but for DirectoryInfo.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="directory_glob-directory"></a>directory |  (DirectoryInfo) The directory to look relative from.   |  none |
+| <a id="directory_glob-include"></a>include |  (List[string]) A list of globs to match.   |  none |
+| <a id="directory_glob-allow_empty"></a>allow_empty |  (bool) Whether to allow a glob to not match any files.   |  <code>False</code> |
+
+**RETURNS**
+
+depset[File] A set of files that match.
+
+
+<a id="directory_glob_chunk"></a>
+
+## directory_glob_chunk
+
+<pre>
+directory_glob_chunk(<a href="#directory_glob_chunk-directory">directory</a>, <a href="#directory_glob_chunk-chunk">chunk</a>)
+</pre>
+
+Given a directory and a chunk of a glob, returns possible candidates.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="directory_glob_chunk-directory"></a>directory |  (DirectoryInfo) The directory to look relative from.   |  none |
+| <a id="directory_glob_chunk-chunk"></a>chunk |  (string) A chunk of a glob to look at.   |  none |
+
+**RETURNS**
+
+depset[DirectoryOrFileInfo] The candidate next entries for the chunk.
+
+
 <a id="directory_path"></a>
 
 ## directory_path
@@ -22,6 +69,29 @@ Gets the path of a directory.
 **RETURNS**
 
 (string) The path to the directory's contents.
+
+
+<a id="directory_single_glob"></a>
+
+## directory_single_glob
+
+<pre>
+directory_single_glob(<a href="#directory_single_glob-directory">directory</a>, <a href="#directory_single_glob-glob">glob</a>)
+</pre>
+
+Calculates all files that are matched by a glob on a directory.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="directory_single_glob-directory"></a>directory |  (DirectoryInfo) The directory to look relative from.   |  none |
+| <a id="directory_single_glob-glob"></a>glob |  (string) A glob to match.   |  none |
+
+**RETURNS**
+
+List[File] A list of files that match.
 
 
 <a id="get_child"></a>
