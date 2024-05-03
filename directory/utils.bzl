@@ -14,6 +14,8 @@
 
 """Skylib module containing utility functions related to directories."""
 
+load(":providers.bzl", "FileOrDirectoryInfo")
+
 visibility("public")
 
 _NOT_FOUND = """{directory} does not contain an entry named {name}.
@@ -30,6 +32,7 @@ _NO_FILES = (
     "The directory {dir} doesn't contain any files, and thus doesn't have a " +
     "path."
 )
+_NO_GLOB_MATCHES = "{glob} failed to match any files in {dir}"
 
 def _check_path_relative(path):
     if path.startswith("/"):
@@ -129,3 +132,92 @@ def directory_path(directory):
     if not path:
         fail(_NO_FILES.format(dir = directory.human_readable))
     return path
+
+def directory_glob_chunk(directory, chunk):
+    """Given a directory and a chunk of a glob, returns possible candidates.
+
+    Args:
+        directory: (DirectoryInfo) The directory to look relative from.
+        chunk: (string) A chunk of a glob to look at.
+
+    Returns:
+        depset[DirectoryOrFileInfo] The candidate next entries for the chunk.
+    """
+    if chunk == "*":
+        return directory.direct_entries
+    elif chunk == "**":
+        return depset(
+            [FileOrDirectoryInfo(value = directory)],
+            transitive = [directory.transitive_entries],
+        )
+    elif "*" not in chunk:
+        entry = getattr(directory.entries, chunk, None)
+        if entry == None:
+            return depset([])
+        else:
+            return depset([FileOrDirectoryInfo(value = entry)])
+    elif chunk.count("*") > 2:
+        fail("glob chunks with more than two asterixes are unsupported. Got", chunk)
+
+    if chunk.count("*") == 2:
+        left, middle, right = chunk.split("*")
+    else:
+        middle = ""
+        left, right = chunk.split("*")
+    entries = []
+    for path in dir(directory.entries):
+        if path.startswith(left) and path.endswith(right) and len(left) + len(right) <= len(path) and middle in path[len(left):-len(right)]:
+            entries.append(FileOrDirectoryInfo(value = getattr(directory.entries, path)))
+    return depset(entries)
+
+def directory_single_glob(directory, glob):
+    """Calculates all files that are matched by a glob on a directory.
+
+    Args:
+        directory: (DirectoryInfo) The directory to look relative from.
+        glob: (string) A glob to match.
+
+    Returns:
+        List[File] A list of files that match.
+    """
+
+    # Treat a glob as a nondeterministic finite state automata. We can be in
+    # multiple places at the one time.
+    candidate_dirs = [directory]
+    candidate_files = []
+    for chunk in glob.split("/"):
+        new_candidates = []
+        for candidate in candidate_dirs:
+            new_candidates.append(directory_glob_chunk(candidate, chunk))
+
+        candidate_dirs = []
+        candidate_files = []
+        for candidate in depset(transitive = new_candidates).to_list():
+            if type(candidate.value) == "File":
+                candidate_files.append(candidate.value)
+            else:
+                candidate_dirs.append(candidate.value)
+
+    return candidate_files
+
+def directory_glob(directory, include, allow_empty = False):
+    """native.glob, but for DirectoryInfo.
+
+    Args:
+        directory: (DirectoryInfo) The directory to look relative from.
+        include: (List[string]) A list of globs to match.
+        allow_empty: (bool) Whether to allow a glob to not match any files.
+
+    Returns:
+        depset[File] A set of files that match.
+    """
+    include_files = []
+    for g in include:
+        matches = directory_single_glob(directory, g)
+        if not matches and not allow_empty:
+            fail(_NO_GLOB_MATCHES.format(
+                glob = repr(g),
+                dir = directory.human_readable,
+            ))
+        include_files.extend(matches)
+    return depset(include_files)

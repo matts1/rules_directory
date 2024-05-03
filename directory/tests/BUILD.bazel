@@ -9,6 +9,11 @@ load(
     "directory_filter_test",
 )
 load(
+    ":glob_test.bzl",
+    "directory_glob_test",
+    "directory_glob_with_no_match_test",
+)
+load(
     ":subdirectory_test.bzl",
     "nonexistent_subdirectory_test",
     "subdirectory_as_file_test",
@@ -80,4 +85,24 @@ analysis_test(
         "f2": "//directory/tests/testdata:f2_filegroup",
         "f3": "//directory/tests/testdata:f3",
     },
+)
+
+analysis_test(
+    name = "directory_glob_test",
+    impl = directory_glob_test,
+    targets = {
+        "root": "//directory/tests/testdata:root",
+        "f1": "//directory/tests/testdata:f1_filegroup",
+        "f2": "//directory/tests/testdata:f2_filegroup",
+        "f3": "//directory/tests/testdata:f3",
+        "simple_glob": "//directory/tests/testdata:simple_glob",
+        "glob_with_exclude": "//directory/tests/testdata:glob_with_exclude",
+    },
+)
+
+analysis_test(
+    name = "directory_glob_with_no_match_test",
+    expect_failure = True,
+    impl = directory_glob_with_no_match_test,
+    target = "//directory/tests/testdata:glob_with_no_match",
 )

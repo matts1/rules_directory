@@ -2,6 +2,7 @@ load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@rules_testing//lib:util.bzl", "util")
 load("//directory:directory.bzl", "directory")
 load("//directory:filter.bzl", "directory_filter")
+load("//directory:glob.bzl", "directory_glob")
 load("//directory:subdirectory.bzl", "subdirectory")
 
 package(default_visibility = ["//directory/tests:__pkg__"])
@@ -77,4 +78,34 @@ directory_filter(
     srcs = ["dir/subdir/f2"],
     data = ["newdir/f3"],
     directory = "//directory/tests/testdata:root",
+)
+
+directory_glob(
+    name = "simple_glob",
+    srcs = ["f1"],
+    directory = ":root",
+)
+
+directory_glob(
+    name = "glob_with_exclude",
+    srcs = [
+        "f1",
+        "newdir/f3",
+        "nonexistent",
+    ],
+    allow_empty = True,
+    data = ["**"],
+    directory = ":root",
+    exclude = ["*/f3"],
+)
+
+util.helper_target(
+    directory_glob,
+    name = "glob_with_no_match",
+    srcs = [
+        "f1",
+        "nonexistent",
+    ],
+    data = ["f1"],
+    directory = ":root",
 )

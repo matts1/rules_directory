@@ -17,7 +17,17 @@ bzl_library(
     srcs = ["filter.bzl"],
     visibility = ["//visibility:public"],
     deps = [
-        ":providers.bzl",
+        ":providers",
+        ":utils",
+    ],
+)
+
+bzl_library(
+    name = "glob",
+    srcs = ["glob.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":providers",
         ":utils",
     ],
 )
@@ -33,7 +43,7 @@ bzl_library(
     srcs = ["subdirectory.bzl"],
     visibility = ["//visibility:public"],
     deps = [
-        ":providers.bzl",
+        ":providers",
         ":utils",
     ],
 )
@@ -42,4 +52,7 @@ bzl_library(
     name = "utils",
     srcs = ["utils.bzl"],
     visibility = ["//visibility:public"],
+    deps = [
+        ":providers",
+    ],
 )
