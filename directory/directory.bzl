@@ -90,6 +90,8 @@ def _directory_impl(ctx):
             file.basename: FileOrDirectoryInfo(value = file)
             for file in dir_metadata.files
         })
+        has_source = any([d.source_path for d in directories.values()]) or any([f.is_source for f in dir_metadata.files])
+        has_generated = any([d.generated_path for d in directories.values()]) or any([not f.is_source for f in dir_metadata.files])
 
         direct_entries = depset([v for k, v in sorted(entries.items())])
         transitive_entries = depset(
@@ -113,8 +115,8 @@ def _directory_impl(ctx):
             direct_entries = direct_entries,
             transitive_entries = transitive_entries,
             transitive_files = transitive_files,
-            source_path = dir_metadata.source_path,
-            generated_path = dir_metadata.generated_path,
+            source_path = dir_metadata.source_path if has_source else None,
+            generated_path = dir_metadata.generated_path if has_generated else None,
             human_readable = dir_metadata.human_readable,
         )
         depset([directory])
