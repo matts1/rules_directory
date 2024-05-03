@@ -22,6 +22,14 @@ Instead, it contains the following entries:
 
 """
 _WRONG_TYPE = "Expected {dir}/{name} to have type {want}, but got {got}"
+_MULTIPLE_DIRS = (
+    "The directory {dir} has both source files and generated files contained " +
+    "within. Thus, it doesn't have a single path to access the contents from."
+)
+_NO_FILES = (
+    "The directory {dir} doesn't contain any files, and thus doesn't have a " +
+    "path."
+)
 
 def _check_path_relative(path):
     if path.startswith("/"):
@@ -105,3 +113,20 @@ def get_relative(directory, path, require_dir = False, require_file = False):
         require_dir = require_dir,
         require_file = require_file,
     )
+
+def directory_path(directory):
+    """Gets the path of a directory.
+
+    Args:
+        directory: (DirectoryInfo) The directory to look at.
+
+    Returns:
+        (string) The path to the directory's contents.
+    """
+    if directory.source_path and directory.generated_path:
+        fail(_MULTIPLE_DIRS.format(dir = directory.human_readable))
+
+    path = directory.source_path or directory.generated_path
+    if not path:
+        fail(_NO_FILES.format(dir = directory.human_readable))
+    return path

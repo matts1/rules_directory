@@ -16,6 +16,7 @@
 
 load("@rules_testing//lib:truth.bzl", "matching")
 load("//directory:providers.bzl", "DirectoryInfo")
+load("//directory:utils.bzl", "directory_path")
 load(":utils.bzl", "directory_subject", "failure_matching")
 
 visibility("private")
@@ -40,6 +41,7 @@ def directory_test(env, targets):
     root.transitive_files().contains_exactly([f1, f2, f3]).in_order()
     root.human_readable().equals("@@//directory/tests/testdata")
     env.expect.that_str(root.actual.source_path + "/f1").equals(f1.path)
+    env.expect.that_str(root.actual.generated_path + "/newdir/f3").equals(f3.path)
 
     dir = directory_subject(env, root.actual.entries.dir.value)
     dir.entries().keys().contains_exactly(["subdir"])
@@ -49,8 +51,16 @@ def directory_test(env, targets):
     subdir.entries().contains_exactly({"f2": f2})
     subdir.transitive_files().contains_exactly([f2])
     env.expect.that_str(subdir.actual.source_path + "/f2").equals(f2.path)
+    subdir.generated_path().equals(None)
+    env.expect.that_str(directory_path(subdir.actual)).equals(
+        subdir.actual.source_path,
+    )
 
     newdir = directory_subject(env, root.actual.entries.newdir.value)
     newdir.entries().contains_exactly({"f3": f3})
     newdir.transitive_files().contains_exactly([f3]).in_order()
     env.expect.that_str(newdir.actual.generated_path + "/f3").equals(f3.path)
+    newdir.source_path().equals(None)
+    env.expect.that_str(directory_path(newdir.actual)).equals(
+        newdir.actual.generated_path,
+    )

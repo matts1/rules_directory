@@ -41,8 +41,8 @@ DirectoryInfo = provider(
         "direct_entries": "depset[FileOrDirectoryInfo] All files and directories directly within this directory.",
         "transitive_entries": "(depset[FileOrDirectoryInfo]) All files and directories transitively contained within this directory.",
         "transitive_files": "(depset[File]) All files transitively contained within this directory.",
-        "source_path": "(string) Path to all source files contained within this directory",
-        "generated_path": "(string) Path to all generated files contained within this directory",
+        "source_path": "(Optional[string]) Path to all source files contained within this directory. Only provided if the directory actually contains source files.",
+        "generated_path": "(Optional[string]) Path to all generated files contained within this directory. Only provided if the directory actually contains generated files.",
         "human_readable": "(string) A human readable identifier for a directory. Useful for providing error messages to a user.",
     },
 )

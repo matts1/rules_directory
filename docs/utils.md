@@ -2,6 +2,28 @@
 
 Skylib module containing utility functions related to directories.
 
+<a id="directory_path"></a>
+
+## directory_path
+
+<pre>
+directory_path(<a href="#directory_path-directory">directory</a>)
+</pre>
+
+Gets the path of a directory.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="directory_path-directory"></a>directory |  (DirectoryInfo) The directory to look at.   |  none |
+
+**RETURNS**
+
+(string) The path to the directory's contents.
+
+
 <a id="get_child"></a>
 
 ## get_child

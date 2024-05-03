@@ -22,8 +22,8 @@ Information about a directory
 | <a id="DirectoryInfo-direct_entries"></a>direct_entries |  depset[FileOrDirectoryInfo] All files and directories directly within this directory.    |
 | <a id="DirectoryInfo-transitive_entries"></a>transitive_entries |  (depset[FileOrDirectoryInfo]) All files and directories transitively contained within this directory.    |
 | <a id="DirectoryInfo-transitive_files"></a>transitive_files |  (depset[File]) All files transitively contained within this directory.    |
-| <a id="DirectoryInfo-source_path"></a>source_path |  (string) Path to all source files contained within this directory    |
-| <a id="DirectoryInfo-generated_path"></a>generated_path |  (string) Path to all generated files contained within this directory    |
+| <a id="DirectoryInfo-source_path"></a>source_path |  (Optional[string]) Path to all source files contained within this directory. Only provided if the directory actually contains source files.    |
+| <a id="DirectoryInfo-generated_path"></a>generated_path |  (Optional[string]) Path to all generated files contained within this directory. Only provided if the directory actually contains generated files.    |
 | <a id="DirectoryInfo-human_readable"></a>human_readable |  (string) A human readable identifier for a directory. Useful for providing error messages to a user.    |
 
 
