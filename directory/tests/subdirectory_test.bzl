@@ -25,8 +25,8 @@ def subdirectory_test(env, targets):
     f2 = targets.f2.files.to_list()[0]
 
     root = targets.root[DirectoryInfo]
-    want_dir = root.entries.dir.value
-    want_subdir = want_dir.entries.subdir.value
+    want_dir = root.entries.dir
+    want_subdir = want_dir.entries.subdir
 
     # Use that_str because it supports equality checks. They're not strings.
     env.expect.that_str(targets.dir[DirectoryInfo]).equals(want_dir)

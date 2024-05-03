@@ -43,11 +43,11 @@ def directory_test(env, targets):
     env.expect.that_str(root.actual.source_path + "/f1").equals(f1.path)
     env.expect.that_str(root.actual.generated_path + "/newdir/f3").equals(f3.path)
 
-    dir = directory_subject(env, root.actual.entries.dir.value)
+    dir = directory_subject(env, root.actual.entries.dir)
     dir.entries().keys().contains_exactly(["subdir"])
     dir.human_readable().equals("@@//directory/tests/testdata/dir")
 
-    subdir = directory_subject(env, dir.actual.entries.subdir.value)
+    subdir = directory_subject(env, dir.actual.entries.subdir)
     subdir.entries().contains_exactly({"f2": f2})
     subdir.transitive_files().contains_exactly([f2])
     env.expect.that_str(subdir.actual.source_path + "/f2").equals(f2.path)
@@ -56,7 +56,7 @@ def directory_test(env, targets):
         subdir.actual.source_path,
     )
 
-    newdir = directory_subject(env, root.actual.entries.newdir.value)
+    newdir = directory_subject(env, root.actual.entries.newdir)
     newdir.entries().contains_exactly({"f3": f3})
     newdir.transitive_files().contains_exactly([f3]).in_order()
     env.expect.that_str(newdir.actual.generated_path + "/f3").equals(f3.path)

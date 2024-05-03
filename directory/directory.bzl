@@ -85,15 +85,19 @@ def _directory_impl(ctx):
             dirname: out[subdir_metadata.source_path]
             for dirname, subdir_metadata in sorted(dir_metadata.directories.items())
         }
-        entries = {k: FileOrDirectoryInfo(value = v) for k, v in directories.items()}
-        entries.update({
-            file.basename: FileOrDirectoryInfo(value = file)
+        entries = {
+            file.basename: file
             for file in dir_metadata.files
-        })
+        }
+        entries.update(directories)
         has_source = any([d.source_path for d in directories.values()]) or any([f.is_source for f in dir_metadata.files])
         has_generated = any([d.generated_path for d in directories.values()]) or any([not f.is_source for f in dir_metadata.files])
 
-        direct_entries = depset([v for k, v in sorted(entries.items())])
+        direct_entries = depset([
+            # Depsets can't contain multiple types, so wrap it in a struct.
+            FileOrDirectoryInfo(value = v)
+            for _, v in sorted(entries.items())
+        ])
         transitive_entries = depset(
             transitive = [direct_entries] + [
                 d.transitive_entries
