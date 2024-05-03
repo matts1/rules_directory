@@ -5,6 +5,10 @@ load(
     "outside_testdata_test",
 )
 load(
+    ":filter_test.bzl",
+    "directory_filter_test",
+)
+load(
     ":subdirectory_test.bzl",
     "nonexistent_subdirectory_test",
     "subdirectory_as_file_test",
@@ -66,4 +70,14 @@ analysis_test(
     expect_failure = True,
     impl = subdirectory_of_file_test,
     target = "//directory/tests/testdata:subdirectory_of_file",
+)
+
+analysis_test(
+    name = "directory_filter_test",
+    impl = directory_filter_test,
+    targets = {
+        "filtered": "//directory/tests/testdata:filtered",
+        "f2": "//directory/tests/testdata:f2_filegroup",
+        "f3": "//directory/tests/testdata:f3",
+    },
 )

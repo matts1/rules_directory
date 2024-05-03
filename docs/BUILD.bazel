@@ -8,6 +8,11 @@ stardoc_with_diff_test(
 )
 
 stardoc_with_diff_test(
+    name = "directory_filter",
+    bzl_library_target = "//directory:filter",
+)
+
+stardoc_with_diff_test(
     name = "providers",
     bzl_library_target = "//directory:providers",
 )

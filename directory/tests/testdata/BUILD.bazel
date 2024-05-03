@@ -1,6 +1,7 @@
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@rules_testing//lib:util.bzl", "util")
 load("//directory:directory.bzl", "directory")
+load("//directory:filter.bzl", "directory_filter")
 load("//directory:subdirectory.bzl", "subdirectory")
 
 package(default_visibility = ["//directory/tests:__pkg__"])
@@ -69,4 +70,11 @@ util.helper_target(
     name = "subdirectory_as_file",
     parent = ":root",
     path = "f1",
+)
+
+directory_filter(
+    name = "filtered",
+    srcs = ["dir/subdir/f2"],
+    data = ["newdir/f3"],
+    directory = "//directory/tests/testdata:root",
 )
