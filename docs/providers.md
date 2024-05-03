@@ -18,7 +18,7 @@ Information about a directory
 
 | Name  | Description |
 | :------------- | :------------- |
-| <a id="DirectoryInfo-entries"></a>entries |  (Struct[str, FileOrDirectoryInfo]) The entries contained directly within    |
+| <a id="DirectoryInfo-entries"></a>entries |  (Struct[str, Either[File, DirectoryInfo]]) The entries contained directly within    |
 | <a id="DirectoryInfo-direct_entries"></a>direct_entries |  depset[FileOrDirectoryInfo] All files and directories directly within this directory.    |
 | <a id="DirectoryInfo-transitive_entries"></a>transitive_entries |  (depset[FileOrDirectoryInfo]) All files and directories transitively contained within this directory.    |
 | <a id="DirectoryInfo-transitive_files"></a>transitive_files |  (depset[File]) All files transitively contained within this directory.    |

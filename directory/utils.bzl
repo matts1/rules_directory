@@ -45,7 +45,7 @@ def get_children(directory):
         dict[str, File|DirectoryInfo]
     """
     return {
-        name: getattr(directory.entries, name).value
+        name: getattr(directory.entries, name)
         for name in sorted(dir(directory.entries))
     }
 
@@ -70,8 +70,7 @@ def get_child(directory, name, require_dir = False, require_file = False):
             name = repr(name),
             children = "\n".join(get_children(directory).keys()),
         ))
-    result = entry.value
-    if require_dir and type(result) == "File":
+    if require_dir and type(entry) == "File":
         fail(_WRONG_TYPE.format(
             dir = directory.human_readable,
             name = name,
@@ -79,14 +78,14 @@ def get_child(directory, name, require_dir = False, require_file = False):
             got = "File",
         ))
 
-    if require_file and type(result) != "File":
+    if require_file and type(entry) != "File":
         fail(_WRONG_TYPE.format(
             dir = directory.human_readable,
             name = name,
             want = "File",
             got = "Directory",
         ))
-    return entry.value
+    return entry
 
 def get_relative(directory, path, require_dir = False, require_file = False):
     """Gets a subdirectory contained within a tree of another directory.

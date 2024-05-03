@@ -24,7 +24,7 @@ _depset_as_list_subject = lambda value, *, meta: subjects.collection(
 )
 
 _entry_struct = lambda value, *, meta: subjects.dict(
-    {k: getattr(value, k).value for k in dir(value)},
+    {k: getattr(value, k) for k in dir(value)},
     meta = meta,
 )
 

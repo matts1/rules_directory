@@ -37,7 +37,7 @@ DirectoryInfo = provider(
         # This is because bazel doesn't allow depsets of structs containing
         # dicts. This should be solved with
         # https://github.com/bazelbuild/bazel/pull/22166
-        "entries": "(Struct[str, FileOrDirectoryInfo]) The entries contained directly within",
+        "entries": "(Struct[str, Either[File, DirectoryInfo]]) The entries contained directly within",
         "direct_entries": "depset[FileOrDirectoryInfo] All files and directories directly within this directory.",
         "transitive_entries": "(depset[FileOrDirectoryInfo]) All files and directories transitively contained within this directory.",
         "transitive_files": "(depset[File]) All files transitively contained within this directory.",
