@@ -26,11 +26,7 @@ def _directory_impl(ctx):
     if dir(struct()):
         fail("rules_directory requires --incompatible_struct_has_no_methods")
 
-    if ctx.label.workspace_root:
-        pkg_path = ctx.label.workspace_root + "/" + ctx.label.package
-    else:
-        pkg_path = ctx.label.package
-    source_dir = pkg_path.rstrip("/")
+    source_dir = ctx.file.self.path
     source_prefix = source_dir + "/"
 
     # Declare a generated file so that we can get the path to generated files.
@@ -75,7 +71,12 @@ def _directory_impl(ctx):
                 topo.append(dir_metadata)
 
             current_path = current_path.directories[dirname]
-        current_path.files.append(src)
+
+        if src.is_directory:
+            kind = "source" if src.is_source else "generated"
+            current_path.dir_file[kind] = src
+        else:
+            current_path.files.append(src)
 
     # The output DirectoryInfos. Key them by something arbitrary but unique.
     # In this case, we choose source_path.
@@ -92,6 +93,13 @@ def _directory_impl(ctx):
         entries.update(directories)
         has_source = any([d.source_path for d in directories.values()]) or any([f.is_source for f in dir_metadata.files])
         has_generated = any([d.generated_path for d in directories.values()]) or any([not f.is_source for f in dir_metadata.files])
+
+        # If the directory is completely entry, this is clearly being used as a
+        # simple directory marker, so we should provide both source_path and
+        # generated_path.
+        if not has_source and not has_generated:
+            has_source = True
+            has_generated = True
 
         direct_entries = depset([
             # Depsets can't contain multiple types, so wrap it in a struct.
@@ -133,25 +141,33 @@ def _directory_impl(ctx):
         DefaultInfo(files = root_directory.transitive_files),
     ]
 
-directory = rule(
+_directory = rule(
     implementation = _directory_impl,
     attrs = {
         "srcs": attr.label_list(
             allow_files = True,
-            mandatory = True,
-            doc = "The files contained within this directory and subdirectories.",
         ),
+        "self": attr.label(allow_single_file = True, mandatory = True),
     },
-    doc = """A marker for a bazel directory and its contents.
-
-Example usage:
-directory(
-    name = "foo",
-    srcs = glob(
-        ["**/*"],
-        exclude=["BUILD.bazel", "WORKSPACE.bazel", "MODULE.bazel"])
-    )
-)
-""",
     provides = [DirectoryInfo],
 )
+
+def directory(name, srcs = [], **kwargs):
+    """A marker for a bazel directory and its contents.
+
+    Example usage:
+    directory(
+        name = "foo",
+        srcs = glob(
+            ["**/*"],
+            exclude=["BUILD.bazel", "WORKSPACE.bazel", "MODULE.bazel"])
+        )
+    )
+
+    Args:
+        name: (str) The name of the label.
+        srcs: (List[Label|File]) The files contained within this directory and
+          subdirectories.",
+        **kwargs: Kwargs to be passed to the underlying rule.
+    """
+    _directory(name = name, srcs = srcs, self = ".", **kwargs)
