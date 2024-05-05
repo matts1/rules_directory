@@ -7,7 +7,7 @@ Skylib module containing rules to create metadata about directories.
 ## directory
 
 <pre>
-directory(<a href="#directory-name">name</a>, <a href="#directory-srcs">srcs</a>)
+directory(<a href="#directory-name">name</a>, <a href="#directory-srcs">srcs</a>, <a href="#directory-kwargs">kwargs</a>)
 </pre>
 
 A marker for a bazel directory and its contents.
@@ -22,12 +22,13 @@ directory(
 )
 
 
-**ATTRIBUTES**
+**PARAMETERS**
 
 
-| Name  | Description | Type | Mandatory | Default |
-| :------------- | :------------- | :------------- | :------------- | :------------- |
-| <a id="directory-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
-| <a id="directory-srcs"></a>srcs |  The files contained within this directory and subdirectories.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | required |  |
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="directory-name"></a>name |  (str) The name of the label.   |  none |
+| <a id="directory-srcs"></a>srcs |  (List[Label|File]) The files contained within this directory and subdirectories.",   |  <code>[]</code> |
+| <a id="directory-kwargs"></a>kwargs |  Kwargs to be passed to the underlying rule.   |  none |
 
 

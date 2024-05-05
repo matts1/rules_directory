@@ -64,3 +64,20 @@ def directory_test(env, targets):
     env.expect.that_str(directory_path(newdir.actual)).equals(
         newdir.actual.generated_path,
     )
+
+# buildifier: disable=function-docstring
+def directory_with_no_srcs_test(env, targets):
+    f1 = targets.f1.files.to_list()[0]
+    f3 = targets.f3.files.to_list()[0]
+
+    env.expect.that_collection(targets.dir.files.to_list()).contains_exactly([])
+
+    d = directory_subject(env, targets.dir[DirectoryInfo])
+    d.entries().contains_exactly({})
+    env.expect.that_str(d.actual.source_path + "/f1").equals(f1.path)
+    env.expect.that_str(d.actual.generated_path + "/newdir/f3").equals(f3.path)
+
+# buildifier: disable=function-docstring
+directory_with_self_srcs_test = failure_matching(matching.contains(
+    "directory/tests/testdata is not contained within @@//directory/tests/testdata",
+))

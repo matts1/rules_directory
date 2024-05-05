@@ -21,6 +21,16 @@ directory(
     ) + [":f3"],
 )
 
+directory(
+    name = "dir_with_no_srcs",
+)
+
+util.helper_target(
+    directory,
+    name = "dir_with_self_srcs",
+    srcs = ["."],
+)
+
 util.helper_target(
     directory,
     name = "outside_testdata",
